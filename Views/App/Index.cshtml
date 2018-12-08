@@ -1,0 +1,35 @@
+
+<input type="button" value="login" onclick="login()" />
+<br/><br/><br/>
+access_token<br/>
+<textarea rows="8" cols="60" id="token"></textarea>
+<br/><input type="button" value="profile" onclick="profile()" />
+<br/>
+<textarea rows="8" cols="60" id="data"></textarea>
+
+<script>
+    function login() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var win = window.open(this.responseText, '_blank');
+                win.focus();
+            }
+        };
+        xhttp.open("GET", "/login", true);
+        xhttp.send();        
+    }
+    function profile(){
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("data").value = this.responseText;
+            }
+        };
+        xhttp.open("GET", "https://api.fitbit.com/1/user/-/profile.json", true);
+        xhttp.setRequestHeader("Authorization", "Bearer "+document.getElementById("token").value);
+        xhttp.send();        
+
+    }
+</script>
